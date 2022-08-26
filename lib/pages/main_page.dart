@@ -1,5 +1,7 @@
 import 'package:ex_track/constants.dart';
 import 'package:ex_track/data/transaction.dart';
+import 'package:ex_track/pages/custom_widgets.dart';
+import 'package:ex_track/pages/detail_list.dart';
 import 'package:ex_track/pages/details.dart';
 import 'package:ex_track/pages/input.dart';
 import 'package:ex_track/pages/sorted.dart';
@@ -18,7 +20,6 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     final tracker = Provider.of<Tracker>(context);
-    double grad = tracker.income.toDouble() / tracker.total.toDouble();
     Map<String, dynamic> colorTheme = kColorMode[colorMode % 2];
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -35,20 +36,24 @@ class _MainPageState extends State<MainPage> {
               tracker.total.toInt().toString(),
               style: TextStyle(fontSize: 60, color: colorTheme['fontColor']),
             ),
-            customBar(context),
+            CustomBar(),
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  newLabel(
-                      value: tracker.income.toInt().toString(),
-                      right: 5,
-                      transactionMode: TransactionMode.income),
-                  newLabel(
-                      value: tracker.expense.toInt().toString(),
-                      left: 5,
-                      transactionMode: TransactionMode.expense)
+                  NewLabel(
+                    value: tracker.income.toInt().toString(),
+                    right: 5,
+                    transactionMode: TransactionMode.income,
+                    context: context,
+                  ),
+                  NewLabel(
+                    value: tracker.expense.toInt().toString(),
+                    left: 5,
+                    transactionMode: TransactionMode.expense,
+                    context: context,
+                  )
                 ],
               ),
             ),
@@ -62,50 +67,9 @@ class _MainPageState extends State<MainPage> {
                 borderRadius: kBorderRadius,
                 color: colorTheme['bgColor'],
               ),
-              child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: transactionList.length,
-                  itemBuilder: (context, index) {
-                    Color? bgColor =
-                        kColorMap[transactionList[index].transactionMode];
-                    IconData? preIcon =
-                        kIconMap[transactionList[index].transactionMode];
-
-                    return GestureDetector(
-                      onTap: () {
-                        Vibration.vibrate();
-                        showDialog(
-                          context: context,
-                          builder: ((context) {
-                            return Details(
-                              index: index,
-                              tsList: transactionList,
-                            );
-                          }),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: bgColor,
-                          borderRadius: kBorderRadius,
-                        ),
-                        padding: const EdgeInsets.all(5),
-                        margin: const EdgeInsets.all(5),
-                        child: ListTile(
-                          subtitle: Text(transactionList[index].desc),
-                          trailing: Text(transactionList[index].date),
-                          leading: Icon(
-                            preIcon,
-                            size: 40,
-                          ),
-                          title: Text(
-                            "${transactionList[index].amount}",
-                            style: const TextStyle(fontSize: 30),
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
+              child: DetailList(
+                list: transactionList,
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -172,40 +136,6 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Expanded newLabel(
-      {required String value,
-      required TransactionMode transactionMode,
-      double left = 0,
-      double right = 0}) {
-    final bgColor = kColorMap[transactionMode];
-    return Expanded(
-      flex: 1,
-      child: GestureDetector(
-        onTap: () {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return Sorted(transactionMode: transactionMode);
-              });
-        },
-        child: Container(
-          margin: EdgeInsets.only(bottom: 10, right: right, left: left),
-          decoration: BoxDecoration(boxShadow: const [
-            BoxShadow(
-                color: Colors.black, offset: Offset(2.0, 2.0), blurRadius: 4)
-          ], color: bgColor, borderRadius: kBorderRadius),
-          height: 50,
-          child: Center(
-            child: Text(
-              value,
-              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Container button(BuildContext context, Color bgColors,
       TransactionMode transactionMode, Icon icon) {
     return Container(
@@ -221,51 +151,14 @@ class _MainPageState extends State<MainPage> {
         onPressed: () {
           setState(
             () {
-              showDialog(
+              customDialog(
                   context: context,
-                  builder: ((context) {
-                    return PopUp(
-                        bgColor: bgColors, transactionMode: transactionMode);
-                  }));
+                  child: PopUp(
+                      bgColor: bgColors, transactionMode: transactionMode));
             },
           );
         },
         icon: icon,
-      ),
-    );
-  }
-
-  Container customBar(BuildContext context) {
-    final tracker = Provider.of<Tracker>(context);
-    int g = tracker.income, f = tracker.expense;
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      height: 50,
-      width: double.infinity,
-      margin: const EdgeInsets.all(20),
-      decoration: const BoxDecoration(
-        color: Color.fromRGBO(221, 216, 213, 1),
-        borderRadius: kBorderRadius,
-        boxShadow: const [
-          BoxShadow(
-              color: Colors.black, offset: Offset(2.0, 2.0), blurRadius: 4)
-        ],
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            flex: g.toInt(),
-            child: Container(
-              color: Color.fromARGB(255, 113, 182, 148),
-            ),
-          ),
-          Expanded(
-            flex: f.toInt(),
-            child: Container(
-              color: Colors.redAccent,
-            ),
-          ),
-        ],
       ),
     );
   }

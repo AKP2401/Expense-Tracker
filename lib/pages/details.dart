@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 class Details extends StatelessWidget {
   final int index;
   final List<Transaction> tsList;
-  Details({required this.index, required this.tsList});
+  const Details({Key? key, required this.index, required this.tsList})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +14,9 @@ class Details extends StatelessWidget {
     final Color? bgColor = kColorMap[ti.transactionMode];
 
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
+      shape: const RoundedRectangleBorder(borderRadius: kBorderRadius),
       child: Container(
+        margin: const EdgeInsets.all(5),
         height: 200,
         width: 200,
         decoration: BoxDecoration(color: bgColor, borderRadius: kBorderRadius),
@@ -23,11 +25,11 @@ class Details extends StatelessWidget {
           children: [
             Text(
               ti.amount.toString(),
-              style: TextStyle(fontSize: 50),
+              style: const TextStyle(fontSize: 50),
             ),
             Text(
               ti.desc,
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -47,7 +49,7 @@ class Details extends StatelessWidget {
       children: [
         Text(
           data,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
         Text(content),
       ],

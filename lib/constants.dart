@@ -18,10 +18,10 @@ const List<Map<String, dynamic>> kColorMode = [
     'bgColor': Color.fromRGBO(245, 215, 200, 0.6),
     'fontColor': Colors.black,
     'icon': Icons.sunny_snowing,
-    'iconBgColor': Color.fromARGB(244, 48, 42, 39),
+    'iconBgColor': Color.fromARGB(244, 20, 19, 18),
   },
   {
-    'bgColor': Color.fromARGB(244, 48, 42, 39),
+    'bgColor': Color.fromARGB(244, 20, 19, 18),
     'fontColor': Colors.white,
     'icon': Icons.sunny,
     'iconBgColor': Color.fromRGBO(245, 215, 200, 0.6),
