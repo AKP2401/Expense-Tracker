@@ -1,36 +1,32 @@
-import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
+part 'transaction.g.dart';
 
 enum TransactionMode { income, expense }
 
-class Tracker with ChangeNotifier {
-  int total = 0, income = 0, expense = 0;
+int colorMode = 0;
 
-  void earn(int amount) {
-    total += amount;
-    income += amount;
-    notifyListeners();
-  }
+@HiveType(typeId: 0)
+class Transaction extends HiveObject {
+  @HiveField(0)
+  String amount;
 
-  void spend(int amount) {
-    total -= amount;
-    expense += amount;
-    notifyListeners();
-  }
-}
+  @HiveField(1)
+  TransactionMode transactionMode;
 
-class Transaction {
-  final TransactionMode transactionMode;
-  final int amount;
-  final String desc, date, time;
+  @HiveField(2)
+  String date;
+
+  @HiveField(3)
+  String time;
+
+  @HiveField(4)
+  String desc;
+
   Transaction({
-    required this.transactionMode,
     required this.amount,
+    required this.transactionMode,
     required this.desc,
     required this.date,
     required this.time,
   });
 }
-
-List<Transaction> transactionList = [];
-
-int colorMode = 0;

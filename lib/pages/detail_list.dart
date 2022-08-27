@@ -3,6 +3,7 @@ import 'package:ex_track/data/transaction.dart';
 import 'package:ex_track/pages/custom_widgets.dart';
 import 'package:ex_track/pages/details.dart';
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 
 class DetailList extends StatelessWidget {
   const DetailList({
@@ -15,12 +16,15 @@ class DetailList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       itemCount: list.length,
       itemBuilder: ((context, index) {
         return GestureDetector(
           onTap: () {
+            Vibration.vibrate(
+                duration: 180, intensities: [1, 2, 3], pattern: [3, 2, 1]);
             customDialog(
                 context: context, child: Details(index: index, tsList: list));
           },

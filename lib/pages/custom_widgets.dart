@@ -3,6 +3,7 @@ import 'package:ex_track/data/transaction.dart';
 import 'package:ex_track/pages/sorted.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vibration/vibration.dart';
 
 Future<Object?> customDialog(
     {required Widget child, required BuildContext context}) {
@@ -84,6 +85,8 @@ class NewLabel extends StatelessWidget {
       flex: 1,
       child: GestureDetector(
         onTap: () {
+          Vibration.vibrate(
+              duration: 180, intensities: [1, 2, 3], pattern: [3, 2, 1]);
           if (value != "0") {
             customDialog(
                 child: Sorted(transactionMode: transactionMode),

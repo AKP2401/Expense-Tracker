@@ -2,12 +2,9 @@ import 'package:ex_track/constants.dart';
 import 'package:ex_track/data/transaction.dart';
 import 'package:ex_track/pages/custom_widgets.dart';
 import 'package:ex_track/pages/detail_list.dart';
-import 'package:ex_track/pages/details.dart';
 import 'package:ex_track/pages/input.dart';
-import 'package:ex_track/pages/sorted.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vibration/vibration.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -32,11 +29,17 @@ class _MainPageState extends State<MainPage> {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              tracker.total.toInt().toString(),
-              style: TextStyle(fontSize: 60, color: colorTheme['fontColor']),
+            Hero(
+              tag: 'balance',
+              child: Text(
+                tracker.total.toInt().toString(),
+                style: TextStyle(
+                    fontSize: 60,
+                    color: colorTheme['fontColor'],
+                    fontWeight: FontWeight.bold),
+              ),
             ),
-            CustomBar(),
+            const CustomBar(),
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Row(
