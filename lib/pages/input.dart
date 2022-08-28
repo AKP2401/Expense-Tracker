@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:ex_track/constants.dart';
+import 'package:ex_track/data/transaction_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ex_track/data/transaction.dart';
@@ -13,8 +14,7 @@ class PopUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tracker = Provider.of<Tracker>(context);
-
+    final tracker = Provider.of<TransactionService>(context);
     TextEditingController textEditingController1 = TextEditingController(),
         textEditingController2 = TextEditingController();
     return Dialog(
@@ -31,6 +31,9 @@ class PopUp extends StatelessWidget {
             Container(
               margin: EdgeInsets.all(8.0),
               child: TextField(
+                onChanged: (value) {
+                  print(value);
+                },
                 autofocus: true,
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
@@ -47,6 +50,9 @@ class PopUp extends StatelessWidget {
             Container(
               margin: const EdgeInsets.all(8.0),
               child: TextField(
+                onChanged: (value) {
+                  print(value);
+                },
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
                   hintText: "Description",
@@ -74,8 +80,10 @@ class PopUp extends StatelessWidget {
                       )),
                 ),
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     int amount = int.parse(textEditingController1.text);
+                    print(amount);
+
                     String desc = textEditingController2.text;
                     var dt = DateTime.now();
                     String date = "${dt.day}/${dt.month}/${dt.year}";
@@ -88,13 +96,7 @@ class PopUp extends StatelessWidget {
                         desc: desc,
                         date: date,
                         time: time);
-                    transactionList.add(transaction);
-                    if (transactionMode == TransactionMode.expense) {
-                      tracker.spend(amount);
-                    }
-                    if (transactionMode == TransactionMode.income) {
-                      tracker.earn(amount);
-                    }
+                    tracker.createItem(transaction);
                     Navigator.pop(context);
                   },
                   child: Container(

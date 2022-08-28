@@ -1,5 +1,6 @@
 import 'package:ex_track/constants.dart';
 import 'package:ex_track/data/transaction.dart';
+import 'package:ex_track/data/transaction_service.dart';
 import 'package:ex_track/pages/custom_widgets.dart';
 import 'package:ex_track/pages/detail_list.dart';
 import 'package:ex_track/pages/input.dart';
@@ -16,7 +17,9 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    final tracker = Provider.of<Tracker>(context);
+    final tracker = Provider.of<TransactionService>(context);
+    tracker.getItems();
+    final transactionList = tracker.transactions;
     Map<String, dynamic> colorTheme = kColorMode[colorMode % 2];
     return Scaffold(
       resizeToAvoidBottomInset: false,

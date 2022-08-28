@@ -1,14 +1,11 @@
+import 'package:ex_track/data/transaction_service.dart';
 import 'package:hive/hive.dart';
 part 'transaction.g.dart';
-
-enum TransactionMode { income, expense }
-
-int colorMode = 0;
 
 @HiveType(typeId: 0)
 class Transaction extends HiveObject {
   @HiveField(0)
-  String amount;
+  int amount;
 
   @HiveField(1)
   TransactionMode transactionMode;

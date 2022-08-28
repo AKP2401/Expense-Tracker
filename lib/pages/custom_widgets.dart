@@ -1,5 +1,6 @@
 import 'package:ex_track/constants.dart';
 import 'package:ex_track/data/transaction.dart';
+import 'package:ex_track/data/transaction_service.dart';
 import 'package:ex_track/pages/sorted.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +29,7 @@ class CustomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tracker = Provider.of<Tracker>(context);
+    final tracker = Provider.of<TransactionService>(context);
     int g = tracker.income, f = tracker.expense;
     return Container(
       clipBehavior: Clip.antiAlias,
