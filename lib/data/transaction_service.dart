@@ -26,7 +26,6 @@ class TransactionService extends ChangeNotifier {
     Box<Tracker> box2 = await Hive.openBox<Tracker>(trackerHiveBox);
     _getTracker();
     await box1.add(transaction);
-    await box2.delete('tracker');
     if (transaction.transactionMode == TransactionMode.expense) {
       _total -= transaction.amount;
       _expense += transaction.amount;
@@ -71,6 +70,36 @@ class TransactionService extends ChangeNotifier {
     _getTracker();
     _transactions = box1.values.toList();
 
+    notifyListeners();
+  }
+
+  clearItems() async {
+    Box<Tracker> box2 = await Hive.openBox<Tracker>(trackerHiveBox);
+    Box<Transaction> box1 = await Hive.openBox<Transaction>(transactionHiveBox);
+    await box1.clear();
+    await box2.clear();
+    notifyListeners();
+  }
+
+  deleteItem(int index) async {
+    Box<Tracker> box2 = await Hive.openBox<Tracker>(trackerHiveBox);
+    Box<Transaction> box1 = await Hive.openBox<Transaction>(transactionHiveBox);
+    final details = box1.getAt(index)!;
+    box1.deleteAt(index);
+    if (details.transactionMode == TransactionMode.income) {
+      _total -= details.amount;
+      _income -= details.amount;
+    } else {
+      _total += details.amount;
+      _expense -= details.amount;
+    }
+    box2.put(
+        'tracker',
+        Tracker(
+          expense: _expense,
+          income: _income,
+          total: _total,
+        ));
     notifyListeners();
   }
 }

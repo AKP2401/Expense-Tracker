@@ -6,6 +6,7 @@ import 'package:ex_track/pages/detail_list.dart';
 import 'package:ex_track/pages/input.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vibration/vibration.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -78,7 +79,8 @@ class _MainPageState extends State<MainPage> {
                 color: colorTheme['bgColor'],
               ),
               child: DetailList(
-                list: transactionList,
+                list: List<int>.generate(
+                    transactionList.length, (index) => index),
               ),
             ),
             Row(
@@ -102,7 +104,24 @@ class _MainPageState extends State<MainPage> {
                           blurRadius: 4)
                     ],
                   ),
-                  child: IconButton(
+                  child: GestureDetector(
+                    onLongPress: () {
+                      setState(() {
+                        Vibration.vibrate();
+                        final sM = ScaffoldMessenger.of(context);
+
+                        sM.showSnackBar(
+                          SnackBar(
+                            content: const Text('Cleared All'),
+                            action: SnackBarAction(
+                                label: "DONE",
+                                onPressed: sM.hideCurrentSnackBar),
+                          ),
+                        );
+                        tracker.clearItems();
+                      });
+                    },
+                    child: IconButton(
                       color: colorTheme['bgColor'],
                       onPressed: () {
                         setState(() {
@@ -130,7 +149,9 @@ class _MainPageState extends State<MainPage> {
                                 kColorMode[1]['icon'],
                                 key: const ValueKey('icon2'),
                               ),
-                      )),
+                      ),
+                    ),
+                  ),
                 ),
                 button(
                   context,

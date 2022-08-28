@@ -15,19 +15,17 @@ class Sorted extends StatelessWidget {
     t.getItems();
     final transactionList = t.transactions;
 
-    List<Transaction> filter(TransactionMode transactionMode) {
-      List<Transaction> output = [];
+    List<int> filter(TransactionMode transactionMode) {
+      List<int> output = [];
       for (int i = 0; i < transactionList.length; ++i) {
         if (transactionList[i].transactionMode == transactionMode) {
-          output.add(transactionList[i]);
+          output.add(i);
         }
       }
       return output;
     }
 
     final list = filter(transactionMode);
-    final bgColor = kColorMap[transactionMode];
-    final preIcon = kIconMap[transactionMode];
     Map<String, dynamic> colorTheme = kColorMode[colorMode % 2];
 
     return Dialog(
