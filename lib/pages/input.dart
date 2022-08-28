@@ -14,12 +14,12 @@ class PopUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tracker = Provider.of<TransactionService>(context);
     TextEditingController textEditingController1 = TextEditingController(),
         textEditingController2 = TextEditingController();
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
       child: StatefulBuilder(builder: (context, setState) {
+        final tracker = Provider.of<TransactionService>(context);
         return Container(
           height: 200,
           width: 200,
@@ -31,9 +31,6 @@ class PopUp extends StatelessWidget {
             Container(
               margin: EdgeInsets.all(8.0),
               child: TextField(
-                onChanged: (value) {
-                  print(value);
-                },
                 autofocus: true,
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
@@ -50,9 +47,6 @@ class PopUp extends StatelessWidget {
             Container(
               margin: const EdgeInsets.all(8.0),
               child: TextField(
-                onChanged: (value) {
-                  print(value);
-                },
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
                   hintText: "Description",
@@ -80,10 +74,8 @@ class PopUp extends StatelessWidget {
                       )),
                 ),
                 TextButton(
-                  onPressed: () async {
+                  onPressed: () {
                     int amount = int.parse(textEditingController1.text);
-                    print(amount);
-
                     String desc = textEditingController2.text;
                     var dt = DateTime.now();
                     String date = "${dt.day}/${dt.month}/${dt.year}";

@@ -1,9 +1,7 @@
 import 'package:ex_track/constants.dart';
 import 'package:ex_track/data/transaction.dart';
-import 'package:ex_track/data/transaction_service.dart';
 import 'package:ex_track/pages/sorted.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 
 Future<Object?> customDialog(
@@ -23,14 +21,12 @@ Future<Object?> customDialog(
 }
 
 class CustomBar extends StatelessWidget {
-  const CustomBar({
-    Key? key,
-  }) : super(key: key);
+  CustomBar({required this.income, required this.expense});
+
+  final int income, expense;
 
   @override
   Widget build(BuildContext context) {
-    final tracker = Provider.of<TransactionService>(context);
-    int g = tracker.income, f = tracker.expense;
     return Container(
       clipBehavior: Clip.antiAlias,
       height: 50,
@@ -47,13 +43,13 @@ class CustomBar extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            flex: g.toInt(),
+            flex: income,
             child: Container(
               color: kColorMap[TransactionMode.income],
             ),
           ),
           Expanded(
-            flex: f.toInt(),
+            flex: expense,
             child: Container(
               color: kColorMap[TransactionMode.expense],
             ),

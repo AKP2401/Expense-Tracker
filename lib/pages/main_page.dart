@@ -24,7 +24,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: AnimatedContainer(
-        duration: Duration(milliseconds: 350),
+        duration: const Duration(milliseconds: 350),
         color: colorTheme['bgColor'],
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -42,7 +42,10 @@ class _MainPageState extends State<MainPage> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            const CustomBar(),
+            CustomBar(
+              income: tracker.income,
+              expense: tracker.expense,
+            ),
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Row(
@@ -64,8 +67,9 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
             AnimatedContainer(
-              duration: Duration(milliseconds: 350),
-              foregroundDecoration: BoxDecoration(borderRadius: kBorderRadius),
+              duration: const Duration(milliseconds: 350),
+              foregroundDecoration:
+                  const BoxDecoration(borderRadius: kBorderRadius),
               clipBehavior: Clip.antiAlias,
               margin: const EdgeInsets.only(left: 20, right: 20),
               height: 400,
@@ -87,7 +91,7 @@ class _MainPageState extends State<MainPage> {
                   const Icon(Icons.add),
                 ),
                 AnimatedContainer(
-                  duration: Duration(milliseconds: 350),
+                  duration: const Duration(milliseconds: 350),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: colorTheme['iconBgColor'],
@@ -109,7 +113,7 @@ class _MainPageState extends State<MainPage> {
                         duration: const Duration(milliseconds: 350),
                         transitionBuilder: (child, animation) =>
                             RotationTransition(
-                          turns: child.key == ValueKey('icon1')
+                          turns: child.key == const ValueKey('icon1')
                               ? Tween<double>(begin: 1, end: 0.75)
                                   .animate(animation)
                               : Tween<double>(begin: 0.75, end: 1)
@@ -120,11 +124,11 @@ class _MainPageState extends State<MainPage> {
                         child: colorMode % 2 == 0
                             ? Icon(
                                 kColorMode[0]['icon'],
-                                key: ValueKey('icon1'),
+                                key: const ValueKey('icon1'),
                               )
                             : Icon(
                                 kColorMode[1]['icon'],
-                                key: ValueKey('icon2'),
+                                key: const ValueKey('icon2'),
                               ),
                       )),
                 ),

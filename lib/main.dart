@@ -7,14 +7,13 @@ import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  Hive.registerAdapter(TransactionAdapter());
-  runApp(
-    ListenableProvider(
-      child: const MyApp(),
-      create: (context) => TransactionService(),
-    ),
-  );
+  Hive
+    ..registerAdapter(TransactionAdapter())
+    ..registerAdapter(TransactionModeAdapter())
+    ..registerAdapter(TrackerAdapter());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -22,13 +21,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: 'splash',
-      routes: {
-        'splash': (context) => const SplashScreen(),
-        'home': (context) => const MainPage(),
-      },
+    return ChangeNotifierProvider<TransactionService>(
+      create: (context) => TransactionService(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: 'splash',
+        routes: {
+          'splash': (context) => const SplashScreen(),
+          'home': (context) => const MainPage(),
+        },
+      ),
     );
   }
 }
