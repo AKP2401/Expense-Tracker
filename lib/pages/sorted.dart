@@ -1,8 +1,9 @@
 import 'package:ex_track/constants.dart';
 import 'package:ex_track/data/transaction.dart';
+import 'package:ex_track/data/transaction_service.dart';
 import 'package:ex_track/pages/detail_list.dart';
-import 'package:ex_track/pages/details.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Sorted extends StatelessWidget {
   const Sorted({Key? key, required this.transactionMode}) : super(key: key);
@@ -10,6 +11,10 @@ class Sorted extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = Provider.of<TransactionService>(context);
+    t.getItems();
+    final transactionList = t.transactions;
+
     List<Transaction> filter(TransactionMode transactionMode) {
       List<Transaction> output = [];
       for (int i = 0; i < transactionList.length; ++i) {

@@ -35,8 +35,8 @@ class DetailList extends StatelessWidget {
             margin: const EdgeInsets.all(5),
             padding: const EdgeInsets.all(5),
             child: ListTile(
-              subtitle: Text(transactionList[index].desc),
-              trailing: Text(transactionList[index].date),
+              subtitle: Text(list[index].desc),
+              trailing: Text(list[index].date),
               leading: Icon(
                 kIconMap[list[index].transactionMode],
                 size: 40,

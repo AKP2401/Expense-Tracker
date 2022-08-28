@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:ex_track/constants.dart';
+import 'package:ex_track/data/transaction_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ex_track/data/transaction.dart';
@@ -13,13 +14,12 @@ class PopUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tracker = Provider.of<Tracker>(context);
-
     TextEditingController textEditingController1 = TextEditingController(),
         textEditingController2 = TextEditingController();
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
       child: StatefulBuilder(builder: (context, setState) {
+        final tracker = Provider.of<TransactionService>(context);
         return Container(
           height: 200,
           width: 200,
@@ -88,13 +88,7 @@ class PopUp extends StatelessWidget {
                         desc: desc,
                         date: date,
                         time: time);
-                    transactionList.add(transaction);
-                    if (transactionMode == TransactionMode.expense) {
-                      tracker.spend(amount);
-                    }
-                    if (transactionMode == TransactionMode.income) {
-                      tracker.earn(amount);
-                    }
+                    tracker.createItem(transaction);
                     Navigator.pop(context);
                   },
                   child: Container(
