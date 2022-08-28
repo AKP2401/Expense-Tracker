@@ -80,7 +80,11 @@ class PopUp extends StatelessWidget {
                     var dt = DateTime.now();
                     String date = "${dt.day}/${dt.month}/${dt.year}";
                     String min = "";
-                    if (dt.minute == 0) min = "00";
+                    if (dt.minute == 0) {
+                      min = "00";
+                    } else {
+                      min = dt.minute.toString();
+                    }
                     String time = "${dt.hour}:$min:${dt.second}";
                     Transaction transaction = Transaction(
                         transactionMode: transactionMode,
